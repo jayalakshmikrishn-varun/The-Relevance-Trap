@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Relevance Challenge</title>
+
+<style>
+:root {
+  --ink: #18202a;
+  --muted: #66717d;
+  --paper: #f6f3ed;
+  --card: #ffffff;
+  --accent: #a95f3d;
+  --accent-dark: #87472e;
+  --line: #ded9d0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app {
+  width: min(920px, 94vw);
+  min-height: 680px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.08);
+  padding: 44px;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: clamp(34px, 5vw, 54px);
+  line-height: 1.05;
+  margin: 0 0 18px;
+}
+
+h2 {
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.18;
+  margin: 0 0 18px;
+}
+
+p {
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* START SCREEN */
+
+.brand {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.intro {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.intro p {
+  margin-bottom: 26px;
+}
+
+.start-button,
+.cta-button,
+.secondary-button {
+  min-height: 56px;
+  padding: 15px 28px;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .15s ease;
+}
+
+.start-button,
+.cta-button {
+  background: var(--accent);
+  color: white;
+  border: 0;
+}
+
+.start-button:hover,
+.cta-button:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+.secondary-button {
+  background: white;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.secondary-button:hover {
+  border-color: var(--accent);
+}
+
+.footer-note {
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* PROGRESS */
+
+.progress-area {
+  margin-bottom: 34px;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.progress {
+  width: 100%;
+  height: 8px;
+  background: #ebe7df;
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width .25s ease;
+}
+
+/* QUESTIONS */
+
+.question {
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.question-type {
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 99px;
+  background: var(--paper);
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.choice {
+  min-height: 125px;
+  padding: 23px;
+  border-radius: 18px;
+  background: white;
+  border: 2px solid var(--line);
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: .15s ease;
+}
+
+.choice:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.07);
+}
+
+.choice strong {
+  display: block;
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+/* RESULT */
+
+.result {
+  max-width: 780px;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.result-label {
+  display: inline-block;
+  padding: 9px 17px;
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  color: var(--accent-dark);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.reflection-card {
+  margin: 24px 0;
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  text-align: left;
+}
+
+.reflection-card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.reflection-card p {
+  margin: 0;
+  font-size: 17px;
+}
+
+.takeaway {
+  margin: 24px 0;
+  padding: 25px;
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  text-align: left;
+}
+
+.takeaway-label {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.takeaway-question {
+  margin-top: 9px;
+  font-size: 24px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.personal-check {
+  margin: 24px 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  text-align: left;
+}
+
+.personal-check h3 {
+  margin: 0 0 15px;
+}
+
+.check-row {
+  margin: 13px 0;
+}
+
+.check-row span {
+  display: block;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.blank {
+  border-bottom: 1px dashed #aaa;
+  height: 24px;
+}
+
+.cta-area {
+  margin-top: 22px;
+}
+
+.cta-area p {
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.choices-summary {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+  body {
+    align-items: stretch;
+  }
+
+  .app {
+    width: 100%;
+    min-height: 100vh;
+    padding: 26px 18px;
+    border-radius: 0;
+    border: 0;
+  }
+
+  .choices {
+    grid-template-columns: 1fr;
+  }
+
+  .choice {
+    min-height: 92px;
+  }
+
+  h1 {
+    font-size: 38px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  .takeaway-question {
+    font-size: 21px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<!-- START SCREEN -->
+
+<section id="startScreen" class="screen">
+
+  <div class="brand">
+
+    <div class="eyebrow">
+      The Relevance Trap
+    </div>
+
+    <h1>
+      The 60-Second<br>
+      Relevance Challenge
+    </h1>
+
+  </div>
+
+  <div class="intro">
+
+    <p>
+      <strong>5 quick choices.</strong><br>
+      Then 3 questions about what you actually do.
+    </p>
+
+    <p>
+      There are no right or wrong answers.
+      The goal is to notice the instinct you reach for
+      when what worked before starts to change.
+    </p>
+
+    <button
+      class="start-button"
+      onclick="startGame()">
+      Start the Challenge
+    </button>
+
+    <div class="footer-note">
+      Take a minute. Be honest. Be curious.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- QUESTION SCREEN -->
+
+<section id="questionScreen" class="screen hidden">
+
+  <div class="progress-area">
+
+    <div class="progress-label">
+
+      <span id="questionNumber">
+        Question 1 of 8
+      </span>
+
+      <span id="progressPercent">
+        0%
+      </span>
+
+    </div>
+
+    <div class="progress">
+
+      <div
+        id="progressBar"
+        class="progress-bar">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="question">
+
+    <div
+      id="questionType"
+      class="question-type">
+      This or That
+    </div>
+
+    <h2 id="questionText"></h2>
+
+    <div
+      id="choices"
+      class="choices">
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- RESULT SCREEN -->
+
+<section id="resultScreen" class="screen hidden">
+
+  <div class="result">
+
+    <div class="eyebrow">
+      Your Relevance Reflection
+    </div>
+
+    <div
+      id="resultLabel"
+      class="result-label">
+    </div>
+
+    <h2>
+      There isn't a right answer.
+    </h2>
+
+    <p id="resultIntro"></p>
+
+
+    <div class="reflection-card">
+
+      <h3>
+        What your choices might make you consider
+      </h3>
+
+      <p id="reflectionText"></p>
+
+    </div>
+
+
+    <div class="takeaway">
+
+      <div class="takeaway-label">
+        Take this question with you
+      </div>
+
+      <div class="takeaway-question">
+        What am I continuing simply because it worked before?
+      </div>
+
+    </div>
+
+
+    <div class="personal-check">
+
+      <h3>
+        My Relevance Check
+      </h3>
+
+      <div class="check-row">
+
+        <span>
+          Something that worked for me in the past
+        </span>
+
+        <div class="blank"></div>
+
+      </div>
+
+
+      <div class="check-row">
+
+        <span>
+          Something that may no longer be as relevant
+        </span>
+
+        <div class="blank"></div>
+
+      </div>
+
+
+      <div class="check-row">
+
+        <span>
+          Something I should start exploring
+        </span>
+
+        <div class="blank"></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="cta-area">
+
+      <p>
+        Want to take the conversation further?
+      </p>
+
+      <div class="actions">
+
+        <!--
+          REPLACE THESE PLACEHOLDER URLs
+          WITH YOUR REAL LINKS.
+        -->
+
+        <a
+          class="cta-button"
+          href="https://YOUR-DIAGNOSTIC-WEBSITE.com"
+          target="_blank"
+          rel="noopener">
+
+          Take the Full Relevance Diagnostic
+
+        </a>
+
+
+        <a
+          class="secondary-button"
+          href="https://YOUR-BOOK-LINK.com"
+          target="_blank"
+          rel="noopener">
+
+          Explore the Book
+
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        class="secondary-button"
+        onclick="restartGame()">
+
+        Try Again
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="choicesSummary"
+      class="choices-summary">
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   QUESTIONS
+===================================================== */
+
+const questions = [
+
+  /* -------- THIS OR THAT -------- */
+
+  {
+    type: "This or That",
+
+    question:
+      "Your most successful skill is becoming less valuable.",
+
+    choices: [
+      [
+        "A",
+        "Get even better at the skill I already have."
+      ],
+
+      [
+        "B",
+        "Start learning a skill that may matter next."
+      ]
+    ]
+  },
+
+
+  {
+    type: "This or That",
+
+    question:
+      "A process has worked successfully for 10 years.",
+
+    choices: [
+      [
+        "A",
+        "If it works, protect it."
+      ],
+
+      [
+        "B",
+        "If it works, still question whether it should continue."
+      ]
+    ]
+  },
+
+
+  {
+    type: "This or That",
+
+    question:
+      "You have 15 years of experience in your field.",
+
+    choices: [
+      [
+        "A",
+        "Trust the experience I have built."
+      ],
+
+      [
+        "B",
+        "Use the experience — but question my assumptions."
+      ]
+    ]
+  },
+
+
+  {
+    type: "This or That",
+
+    question:
+      "New technology can now do 30% of your work.",
+
+    choices: [
+      [
+        "A",
+        "Protect the 70% I already do well."
+      ],
+
+      [
+        "B",
+        "Learn how to work with the technology."
+      ]
+    ]
+  },
+
+
+  {
+    type: "This or That",
+
+    question:
+      "Your organisation has always done something a particular way.",
+
+    choices: [
+      [
+        "A",
+        "There must be a reason we do it this way."
+      ],
+
+      [
+        "B",
+        "Let's find out whether there is still a reason."
+      ]
+    ]
+  },
+
+
+  /* -------- BEHAVIORAL -------- */
+
+  {
+    type: "What Do You Actually Do?",
+
+    question:
+      "When a familiar way of working stops producing the same results, what do you usually do first?",
+
+    choices: [
+      [
+        "A",
+        "Put in more effort with the same approach."
+      ],
+
+      [
+        "B",
+        "Try a different approach."
+      ],
+
+      [
+        "C",
+        "Ask others what they're doing differently."
+      ],
+
+      [
+        "D",
+        "Wait until the change becomes unavoidable."
+      ]
+    ]
+  },
+
+
+  {
+    type: "What Do You Actually Do?",
+
+    question:
+      "Think of a skill or approach that once made you successful but is less valuable today. What did you do?",
+
+    choices: [
+      [
+        "A",
+        "Kept improving it."
+      ],
+
+      [
+        "B",
+        "Added a new skill alongside it."
+      ],
+
+      [
+        "C",
+        "Started moving into something different."
+      ],
+
+      [
+        "D",
+        "Haven't really changed it yet."
+      ]
+    ]
+  },
+
+
+  {
+    type: "What Do You Actually Do?",
+
+    question:
+      "When was the last time you deliberately stopped doing something that had worked for you?",
+
+    choices: [
+      [
+        "A",
+        "Recently."
+      ],
+
+      [
+        "B",
+        "In the last few years."
+      ],
+
+      [
+        "C",
+        "I can't think of one."
+      ],
+
+      [
+        "D",
+        "Usually only when circumstances force me to."
+      ]
+    ]
+  }
+
+];
+
+
+/* =====================================================
+   GAME STATE
+===================================================== */
+
+let currentQuestion = 0;
+let answers = [];
+
+
+/* =====================================================
+   START
+===================================================== */
+
+function startGame() {
+
+  currentQuestion = 0;
+  answers = [];
+
+  document
+    .getElementById("startScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("resultScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("questionScreen")
+    .classList.remove("hidden");
+
+  showQuestion();
+}
+
+
+/* =====================================================
+   SHOW QUESTION
+===================================================== */
+
+function showQuestion() {
+
+  const q = questions[currentQuestion];
+
+  const total = questions.length;
+
+  const percent =
+    Math.round(
+      (currentQuestion / total) * 100
+    );
+
+
+  document
+    .getElementById("questionNumber")
+    .textContent =
+    `Question ${currentQuestion + 1} of ${total}`;
+
+
+  document
+    .getElementById("progressPercent")
+    .textContent =
+    `${percent}%`;
+
+
+  document
+    .getElementById("progressBar")
+    .style.width =
+    `${percent}%`;
+
+
+  document
+    .getElementById("questionType")
+    .textContent =
+    q.type;
+
+
+  document
+    .getElementById("questionText")
+    .textContent =
+    q.question;
+
+
+  const choicesContainer =
+    document.getElementById("choices");
+
+
+  choicesContainer.innerHTML = "";
+
+
+  q.choices.forEach(choice => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "choice";
+
+    button.innerHTML =
+      `<strong>${choice[0]}</strong>${choice[1]}`;
+
+
+    button.onclick = () =>
+      choose(choice[0]);
+
+
+    choicesContainer.appendChild(button);
+
+  });
+
+}
+
+
+/* =====================================================
+   RECORD ANSWER
+===================================================== */
+
+function choose(answer) {
+
+  answers.push({
+    question: currentQuestion + 1,
+    type: questions[currentQuestion].type,
+    answer: answer
+  });
+
+
+  currentQuestion++;
+
+
+  if (currentQuestion < questions.length) {
+
+    showQuestion();
+
+  } else {
+
+    showResult();
+
+  }
+
+}
+
+
+/* =====================================================
+   RESULT
+===================================================== */
+
+function showResult() {
+
+  document
+    .getElementById("questionScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("resultScreen")
+    .classList.remove("hidden");
+
+
+  const firstFive =
+    answers.slice(0, 5);
+
+
+  const behavioral =
+    answers.slice(5);
+
+
+  const aCount =
+    firstFive.filter(
+      x => x.answer === "A"
+    ).length;
+
+
+  const bCount =
+    firstFive.filter(
+      x => x.answer === "B"
+    ).length;
+
+
+  /*
+    For the behavioral questions,
+    B and C represent responses involving
+    changing, learning or seeking another approach.
+  */
+
+  const adaptiveBehavior =
+    behavioral.filter(
+      x =>
+        x.answer === "B" ||
+        x.answer === "C"
+    ).length;
+
+
+  let label;
+  let intro;
+  let reflection;
+
+
+  if (
+    aCount >= 4 &&
+    adaptiveBehavior <= 1
+  ) {
+
+    label =
+      "PROTECT WHAT WORKS";
+
+
+    intro =
+      "Your choices show a strong instinct to rely on proven experience and established ways of working.";
+
+
+    reflection =
+      "That instinct can be valuable. But when circumstances change, experience can also make an old answer feel more certain than it really is. A useful question is: am I protecting something because it still creates value — or because I have invested in it?";
+
+  }
+
+
+  else if (
+    bCount >= 4 &&
+    adaptiveBehavior >= 2
+  ) {
+
+    label =
+      "EXPLORE WHAT'S NEXT";
+
+
+    intro =
+      "Your choices show a strong instinct to question, learn and adapt when circumstances change.";
+
+
+    reflection =
+      "That instinct can create room for new possibilities. But change for its own sake isn't the goal. A useful question is: what is worth preserving even while I move forward?";
+
+  }
+
+
+  else {
+
+    label =
+      "QUESTION THE ASSUMPTION";
+
+
+    intro =
+      "Your choices suggest that you can see value in both experience and adaptation.";
+
+
+    reflection =
+      "The challenge may not be choosing change over continuity. It may be knowing when to protect, when to question and when to reinvent — especially when the thing you're good at is also the thing you have invested the most in.";
+
+  }
+
+
+  document
+    .getElementById("resultLabel")
+    .textContent =
+    label;
+
+
+  document
+    .getElementById("resultIntro")
+    .textContent =
+    intro;
+
+
+  document
+    .getElementById("reflectionText")
+    .textContent =
+    reflection;
+
+
+  document
+    .getElementById("choicesSummary")
+    .textContent =
+    `Your first five choices: ${aCount} × A and ${bCount} × B. ` +
+    `Your behavioural choices included ${adaptiveBehavior} response${
+      adaptiveBehavior === 1 ? "" : "s"
+    } involving changing, learning or seeking a different approach.`;
+
+}
+
+
+/* =====================================================
+   RESTART
+===================================================== */
+
+function restartGame() {
+
+  document
+    .getElementById("resultScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("questionScreen")
+    .classList.add("hidden");
+
+  document
+    .getElementById("startScreen")
+    .classList.remove("hidden");
+
+
+  currentQuestion = 0;
+  answers = [];
+
+}
+
+</script>
+
+</body>
+</html>
